@@ -1,0 +1,9 @@
+<div class="container mt-2 mb-2">
+    <div class="button-container">
+        <button (click)="cancelPopUp()" mat-raised-button color="primary">Cancel</button>    
+        <button (click)="closePopUp()" mat-raised-button color="warn">Close</button>    
+    </div>
+    <div style="width: 100%;">
+        <app-insurance-policy-form [action] ="inputData.action" [paramuserid] ="inputData.userId" [paramid]="inputData.id" style="width: 100%;"></app-insurance-policy-form>
+    </div>
+</div>

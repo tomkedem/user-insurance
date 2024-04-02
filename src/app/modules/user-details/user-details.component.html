@@ -1,0 +1,60 @@
+
+@if(user){
+   
+    <div class="container mt-5">
+        <h2>{{ user[0].name }}</h2>
+        <p>Email: {{ user[0].email }}</p>
+       
+        <div style="display: flex; justify-content: center; align-items: center; ">
+          <div style="width: 30vw; margin: 1em; padding: 1em; border: 1px solid #ddd; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+            <h3 style="margin-bottom: 1em; color: #333; font-size: 1.2em;">Filter Policies by Start date</h3>
+            <label for="startDate" style="display: block; margin-bottom: 0.5em; color: #666;">Start Date:</label>
+            <input type="date" id="startDate" formControlName="startDate" class="form-control" 
+                            style="padding: 0.5em; border: 1px solid #ccc; border-radius: 3px;" 
+                            (change)="onDateChange($event)">
+          </div>
+        </div>
+       
+       
+        <h4 class="mb-4">Insurance Policies List</h4>
+        <div class="card">
+          <mat-card>
+          <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+            <ng-container matColumnDef="actions">
+              <th mat-sort-header mat-header-cell *matHeaderCellDef class="actions-cell">  </th>
+             
+               <td mat-cell *matCellDef="let element" class="actions-cell">
+                <div>                 
+                    <!-- <button class="btn btn-info btn-sm mr-2" [routerLink]="'/insuranceform/' + element.id">xEdit</button> -->
+                    <button class="btn btn-info btn-sm mr-2" (click)="editPolicy(element.id)">Edit</button>
+                    <button class="btn btn-danger btn-sm mr-2" (click)="deletePolicy(element.id)">Delete</button>
+              </div>
+              </td>
+            </ng-container>
+            @for (item of dataTemplate; track item.key) {
+              
+            <ng-container [matColumnDef]="item.key">
+              <th mat-sort-header mat-header-cell *matHeaderCellDef>{{ item.lable }}</th>        
+              <td mat-cell *matCellDef="let emp">{{ item.type=='date'? (emp[item.key] | date:"dd/MM/yyyy") : emp[item.key] }}</td>
+              
+            </ng-container>
+                
+          }
+      
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let emprow; columns: displayedColumns"></tr>
+          </table>
+          <mat-paginator [pageSizeOptions]="[5, 10, 20]" 
+              [length]="length"
+              
+              (page)="pageEvent=$event;onPageChange($event)"
+              showFirstLastButtons
+              ></mat-paginator>
+            </mat-card>
+            </div>
+         
+           
+           <button class="btn btn-success mt-4" (click)="addPolicy()">Add New Policy (+)</button>
+      </div>  
+  
+}

@@ -1,0 +1,79 @@
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6 offset-lg-3">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="text-center mb-4">Insurance Policy Form</h1>
+                    <div class="row mb-4">
+                        <div class="col-lg-6 offset-lg-3">
+                            <h4 class="text-center">{{ ActionOnPage }}</h4>
+                        </div>
+                    </div>
+            <hr>
+            
+            <form [formGroup]="policyForm" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <label for="policyNumber">Policy Number</label>
+                    <input type="text" class="form-control" id="policyNumber" formControlName="policyNumber">
+                    @if(f['policyNumber'].errors && (f['policyNumber'].touched || f['policyNumber'].dirty)){
+                        @if(f['policyNumber'].hasError('required'))
+                        {
+                            <div class="alert alert-danger">
+                            <small>Policy Number is required</small>
+                            </div>
+                        }   
+                    }                    
+                </div>
+                <div class="form-group">
+                    <label for="insuranceAmount">Insurance Amount</label>
+                    <input type="number" class="form-control" id="insuranceAmount" formControlName="insuranceAmount">
+                    @if(f['insuranceAmount'].errors && (f['insuranceAmount'].touched || f['insuranceAmount'].dirty)){
+                        @if(f['insuranceAmount'].hasError('required'))
+                        {
+                            <div class="alert alert-danger">
+                                <small>Insurance Amount is required</small>
+                            </div>
+                        } 
+                        @if(f['insuranceAmount'].hasError('min'))
+                        {
+                            <div class="alert alert-danger">
+                                <small>Insurance Amount must be positive.</small>
+                            </div>
+                        }   
+                    }                   
+                </div>
+                <div class="form-group">
+                    <label for="startDate">Start Date</label>
+                    <input type="date" class="form-control" id="startDate" formControlName="startDate">
+                    @if(f['startDate'].errors && (f['startDate'].touched || f['startDate'].dirty)){
+                        @if(f['startDate'].hasError('required'))
+                        {
+                            <div class="alert alert-danger">                               
+                                <small>Start Date is required.</small>
+                            </div>
+                        }                         
+                    }  
+                </div>
+                <div class="form-group">
+                    <label for="endDate">End Date</label>
+                    <input type="date" class="form-control" id="endDate" formControlName="endDate">
+                    @if(f['endDate'].errors && (f['endDate'].touched || f['endDate'].dirty)){
+                        @if(f['endDate'].hasError('required'))
+                        {
+                            <div class="alert alert-danger">                                
+                                <small>End Date is required.</small>
+                            </div>
+                        }                         
+                    }                     
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary mr-2" [disabled]="policyForm.invalid">Save</button>
+                   
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+

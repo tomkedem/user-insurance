@@ -1,0 +1,86 @@
+
+<div class="container mt-5">
+  <h2 class="mb-4">User List</h2>
+  
+@if (users.length > 0){
+   
+  <div class="card">
+    <mat-card>
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+      <ng-container matColumnDef="actions">
+        <th mat-sort-header mat-header-cell *matHeaderCellDef class="actions-cell">  </th>
+       
+         <td mat-cell *matCellDef="let element" class="actions-cell">
+          <div>
+           
+            <button class="btn btn-primary btn-sm mr-2" (click)="editUser(element)">Edit</button>
+            <button class="btn btn-danger btn-sm mr-2" (click)="deleteUser(element.id)">Delete</button>
+            <button class="btn btn-info btn-sm mr-2" [routerLink]="'/userdetails/' + element.id">View policies</button>
+        </div>
+        </td>
+      </ng-container>
+      @for (item of dataTemplate; track item.key) {
+        
+      <ng-container [matColumnDef]="item.key">
+        <th mat-sort-header mat-header-cell *matHeaderCellDef>{{ item.lable }}</th>        
+        <td mat-cell *matCellDef="let emp">{{ emp[item.key] }}</td>
+        
+      </ng-container>
+          
+    }
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let emprow; columns: displayedColumns"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" 
+        [length]="length"
+        
+        (page)="pageEvent=$event;onPageChange($event)"
+        showFirstLastButtons
+        ></mat-paginator>
+      </mat-card>
+      </div>
+   
+}
+ 
+
+
+@if (users.length === 0){
+<p>No users found.</p>
+}
+
+<button mat-raised-button class="success mt-4" (click)="openAddNew()">Add New User (+)</button>
+@if(bAddNew || bEdit){
+  <form [formGroup]="newUserForm" (ngSubmit)="saveUser()" class="mt-4">
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input type="text" id="name" formControlName="name" required class="form-control">
+      @if (f['name'].errors && (f['name'].touched || f['name'].dirty)) { 
+        <div class="text-danger">
+          @if(f['name'].hasError('required')){
+            <small>Name is required.</small>
+          }
+        </div>        
+      }
+    </div>
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" id="email" formControlName="email" required class="form-control">
+      @if (f['email'].errors && (f['email'].touched || f['email'].dirty)) { 
+        <div class="text-danger">
+          @if(f['email'].hasError('required')){
+            <small>Email is required.</small>
+          }
+          @if(f['email'].hasError('email')){
+            <small>Invalid email format.</small>
+          }
+        </div>        
+      }
+    </div>
+    <button type="submit" class="btn btn-primary mr-2">Save User</button>
+    <button class="btn btn-outline-secondary" (click)="cancel()">Cancel</button>
+  </form>
+}
+
+</div>
+
